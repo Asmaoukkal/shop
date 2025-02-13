@@ -28,10 +28,10 @@ $content = '';
 
 //---------------------FAILLES XSS
  foreach($_POST as $key => $value){
-    $_POST[$key] = htmlentities(addslashes(trim($value)));
+    $_POST[$key] = htmlspecialchars(addslashes(trim($value)));
  }
  foreach($_GET as $key => $value){
-    $_GET[$key] = htmlentities(addslashes(trim($value)));
+    $_GET[$key] = htmlspecialchars(addslashes(trim($value)));
  }
 // trim() : fonction predefenier qui supprime les espaces en debut et fin de chaines de caractaire
 

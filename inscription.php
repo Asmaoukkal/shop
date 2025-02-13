@@ -1,6 +1,10 @@
 <?php
 require_once('include/init.php');
 
+//si il est connecte il na rien a faire sur la page inscription , on le redirige vers la page index.php
+if(userConnected()){
+  header('location: index.php');
+}
 /*
 EXO / 
 1- controle que la receptionne bien toute les donnes saisie dans le formaulaire en PHP
@@ -11,7 +15,7 @@ EXO /
 6- controler que les mots de passe corespondant
 */
 
-require_once('include/header.php');
+
 //1- controle que la receptionne bien toute les donnes saisie dans le formaulaire en PHP
    echo '<pre>'; print_r($_POST); echo '</pre>';
    //2- CONTROLER LA disponibiliteDE L'EMAIL (SELECT + ROWCOUNT)
@@ -27,10 +31,13 @@ require_once('include/header.php');
 
     if($emailIxist->rowCount()){
       $valueExiste='<small class="text-color-danger">un compte et deja existant à cette adress email.</small>';
+      $error = true;
     }elseif(empty($_POST['email'])){
       $remplire= '<small class="text-danger">Merci de saisir une adress email</small>';
+      $error = true;
      }elseif(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL )){
-     $errorEmail = '<small class="text-color-danger">Merci de saisir une adress email valide</small>';
+      $errorEmail = '<small class="text-color-danger">Merci de saisir une adress email valide</small>';
+      $error = true;
      }
   
 
@@ -38,35 +45,59 @@ require_once('include/header.php');
     //   $valueExiste='<small class="text-danger">Cette adresse e-mail est déjà enregistrée. Veuillez utiliser une autre adresse ou vous connecter.</small>';
     // }
     $password_regex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/"; 
-    echo preg_match($password_regex, 'secret'); // returns 0
-    echo preg_match($password_regex, '-Secr3t.'); // returns 1
+    // echo preg_match($password_regex, 'secret'); // returns 0
+    // echo preg_match($password_regex, '-Secr3t.'); // returns 1
    if(empty($_POST['password'])){
+
     $rempliremotDepass= '<small class="text-color-danger">veuillez remplire votre mot de passe</small>';
+    $error = true;
    }elseif(!preg_match($password_regex, $_POST['password'])){
+
     $rempliremotDepass= '<small class="text-color-danger">8caractere minimum, une majuscule, une minuscule, un chiffre , un caractere special(#?!@$%^&*-). </small>';
+    $error = true;
    }elseif($_POST['password'] !== $_POST['repeat_password']){
     $rempliremotDepass= '<small class="text-danger">les mot de passe ne correspondent pas</small>';
+    $error = true;
     }
   
+//  ****************EXO2 
+//si l'utilisateur a correctement rempli le formulaire , execute la requete d'insertion en bDD (prepare + bindValue + execute), on redirige l'internateur vers la page connexion.php
 
+if(!isset($error)){
 
-    
-  // $inscription = $connect_db->prepare("INSERT INTO shop (firstName, lastName, email, city, zipcode, password, address, roles) VALUES (:firstName, :lastName, :email, :profession, : city, :zipcode, :password, :address, :repeat_password)");
+  //le mots de passe n'est jamais conserve en clair dans la base de donner 
+  //password_hash permet de creee une cle de hachage du mot de passe dans la BDD
+  $inscription = $connect_db->prepare("INSERT INTO user (password, firstName, lastName, email, city, zipcode,address) VALUES (:password, :firstName, :lastName, :email, :city, :zipcode, :address)");
 
-  // $inscription->bindValue(':firstName', $_POST['firstName'], PDO::PARAM_STR);
-  // $inscription->bindValue(':lastName', $_POST['lastName'], PDO::PARAM_STR);
-  // $inscription->bindValue(':email', $_POST['email'], PDO::PARAM_STR);
-  // $inscription->bindValue(':city', $_POST['city'], PDO::PARAM_STR);
-  // $inscription->bindValue(':zipcode', $_POST['zipcode'], PDO::PARAM_STR); 
-  // $inscription->bindValue(':password', $_POST['password'], PDO::PARAM_STR); 
-  // $inscription->bindValue(':address', $_POST['address'], PDO::PARAM_STR);
-  // $inscription->bindValue(':roles', $_POST['repeat_password'], PDO::PARAM_STR);
-  // $inscription->execute();
-   }
+  $inscription->bindValue(':password', password_hash($_POST['password'], PASSWORD_DEFAULT), PDO::PARAM_STR); 
+
+  $inscription->bindValue(':firstName', $_POST['firstName'], PDO::PARAM_STR);
+
+  $inscription->bindValue(':lastName', $_POST['lastName'], PDO::PARAM_STR);
+
+  $inscription->bindValue(':email', $_POST['email'], PDO::PARAM_STR);
+
+  $inscription->bindValue(':city', $_POST['city'], PDO::PARAM_STR);
+
+  $inscription->bindValue(':zipcode', $_POST['zipcode'], PDO::PARAM_STR); 
+
+  $inscription->bindValue(':address', $_POST['address'], PDO::PARAM_STR);
+
+  $inscription->execute();
+  
   // echo '<pre>'; print_r($_POST); echo '</pre>';
+
+  /*******************On stock dans le fichier de l'utilisateur , le fichier de session est stocke cote serveur et accessible via la superglobale $_session et accessible sur n'import quelle page de site , on stock ici un message (message-flash) dans le fichier de session de l'utilisateur */
+  $_SESSION['msgRegisterValidate'] = '<div class="bg-success p-3 text-white text-center mb-2">Votre inscription est valide. vous pouvez des a present vous connecter.</div>';
+  header('location: connexion.php');
+ }
+}
+
+require_once('include/header.php');
   ?>
     <!-- end header section -->
   <!-- inner page section -->
+   
   <section class="inner_page_head">
     <div class="container_fuild">
       <div class="row">
@@ -128,11 +159,11 @@ require_once('include/header.php');
                    />
                   <?php if(isset($rempliremotDepass)) echo$rempliremotDepass ; ?>
                 <input
-                  type="password"
+                  type="text"
                   placeholder="Enter votre mot de passe"
                   name="password"
                   />
-                  <?php if(isset($pasEdentique)) echo $pasEdentique; ?>
+                  <?php if(isset($pasEdentique)) echo$pasEdentique; ?>
                 <input
                   type="repeat_password"
                   placeholder="Répétez votre mot de passe"

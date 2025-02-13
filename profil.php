@@ -1,8 +1,15 @@
-<?php
-  require_once('include/header.php');
-  ?>
-    <!-- end header section -->
-  
+<?php 
+require_once('include/init.php');
+// echo '<pre>'; print_r($_SESSION); echo '</pre>';
+
+// Si l'utlisateur n'est pas connecté, il n'a rien à faire sur la page profil, on le redirige vers la page index.php
+if(!userConnected()){
+  header('location: index.php');
+}
+
+require_once('include/header.php');
+?>
+
   <!-- inner page section -->
   <section class="inner_page_head">
     <div class="container_fuild">
@@ -21,7 +28,42 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-8 offset-lg-2">
-          <div class="full"></div>
+          <div class="full">
+            <div class="col-sm-12 col-md-8 col-lg-12">
+              <div class="box-profil">
+                <div class="detail-box d-flex align-items-center justify-content-between">
+                  <h5>Prénom</h5>
+                  <h6><?= $_SESSION['user']['firstName'] ?></h6>
+                </div>
+                <div class="detail-box d-flex align-items-center justify-content-between">
+                  <h5>Nom</h5>
+                  <h6><?= $_SESSION['user']['lastName'] ?></h6>
+                </div>
+                <div class="detail-box d-flex align-items-center justify-content-between">
+                  <h5>Email</h5>
+                  <h6><?= $_SESSION['user']['email'] ?></h6>
+                </div>
+                <div class="detail-box d-flex align-items-center justify-content-between">
+                  <h5>Adresse</h5>
+                  <h6><?= $_SESSION['user']['address'] ?></h6>
+                </div>
+                <div class="detail-box d-flex align-items-center justify-content-between">
+                  <h5>Ville</h5>
+                  <h6><?= $_SESSION['user']['city'] ?></h6>
+                </div>
+                <div class="detail-box d-flex align-items-center justify-content-between">
+                  <h5>Code postal</h5>
+                  <h6><?= $_SESSION['user']['zipcode'] ?></h6>
+                </div>
+
+                <?php if(adminConnected()): ?>
+                  <div class="detail-box d-flex align-items-center justify-content-between">
+                    <h5>Vous êtes ADMINISTRATEUR</h5>
+                  </div>
+                <?php endif; ?>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -30,65 +72,7 @@
   <!-- arrival section -->
   <!-- end arrival section -->
   <!-- footer section -->
-  <footer class="footer_section">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4 footer-col">
-          <div class="footer_contact">
-            <h4>Nous trouver..</h4>
-            <div class="contact_link_box">
-              <a href="">
-                <i class="fa fa-map-marker" aria-hidden="true"></i>
-                <span> Coordonnées </span>
-              </a>
-              <a href="">
-                <i class="fa fa-phone" aria-hidden="true"></i>
-                <span> 02 23 45 78 89 </span>
-              </a>
-              <a href="">
-                <i class="fa fa-envelope" aria-hidden="true"></i>
-                <span> demo@gmail.com </span>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 footer-col">
-          <div class="footer_detail">
-            <a href="index.php" class="footer-logo"> Famms </a>
-            <p>
-              Nécessaire, ce qui en fait le premier véritable générateur sur Internet.
-              Il utilise un dictionnaire de plus de 200 mots latins, combiné avec
-            </p>
-            <div class="footer_social">
-              <a href="">
-                <i class="fa fa-facebook" aria-hidden="true"></i>
-              </a>
-              <a href="">
-                <i class="fa fa-twitter" aria-hidden="true"></i>
-              </a>
-              <a href="">
-                <i class="fa fa-linkedin" aria-hidden="true"></i>
-              </a>
-              <a href="">
-                <i class="fa fa-instagram" aria-hidden="true"></i>
-              </a>
-              <a href="">
-                <i class="fa fa-pinterest" aria-hidden="true"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 footer-col">
-          <div class="map_container">
-            <div class="map">
-              <div id="googleMap"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
-  <!-- footer end -->
-  <?php
-  require_once('include/footer.php');
-  ?>
+
+<?php 
+require_once('include/footer.php');
+?>
