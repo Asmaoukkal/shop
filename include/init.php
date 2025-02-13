@@ -13,7 +13,7 @@ session_start();
 //-------------------CHEMIN
 
 //echo '<pre>'; var_dump($_SERVER); echo '</pre>';
-define('RACINE_SITE', $_SERVER['DOCUMENT_ROOT'] . '/');
+define('RACINE_SITE', $_SERVER['DOCUMENT_ROOT'] . '/PHP/shop/');
 //echo '<pre>'; print_r(RACINE_SITE); echo '</pre>';
 
 //Lors de l'enregestriment d'image/photos, nous aurrons besoin du chemin complet de dossier images pour enregistrer la photo

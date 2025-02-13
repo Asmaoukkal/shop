@@ -1,12 +1,14 @@
-<footer class="modal-card-foot">
-          <button class="button jb-modal-close">Cancel</button>
-          <button class="button is-danger jb-modal-close">Delete</button>
-        </footer>
+<footer class="footer">
+      <div class="container-fluid">
+        <div class="level">
+          <div class="level-left">
+            <div class="level-item">© 2025, Grégory LACROIX</div>
+          </div>
+        </div>
       </div>
-      <button
-        class="modal-close is-large jb-modal-close"
-        aria-label="close"></button>
-    </div>
+    </footer>
+
+   
   </div>
 
   <!-- Scripts below are for demo only -->
