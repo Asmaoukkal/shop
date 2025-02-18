@@ -1,7 +1,60 @@
-<?php
-  require_once('include/header.php');
-  ?>
- 
+<?php 
+require_once('../include/init.php');
+
+// Si l'utilisateur n'est pas connecté ou est connecté mais non admin, on le redirige vers la page index.php
+
+if(!adminConnected()){
+  // header('location: ' . URL . ' index.php');
+  //                  http://localhost/PHP/shop/index.php
+  header('location: ' . URL . 'index.php');
+}
+
+require_once('include/header.php');
+?>
+    <section class="section is-title-bar">
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <ul>
+              <li>Admin</li>
+              <li>Commandes</li>
+            </ul>
+          </div>
+        </div>
+        <!-- <div class="level-right">
+            <div class="level-item">
+              <div class="buttons is-right">
+                <a
+                  href="https://github.com/vikdiesel/admin-one-bulma-dashboard"
+                  target="_blank"
+                  class="button is-primary"
+                >
+                  <span class="icon"
+                    ><i class="mdi mdi-github-circle"></i
+                  ></span>
+                  <span>GitHub</span>
+                </a>
+              </div>
+            </div>
+          </div> -->
+      </div>
+    </section>
+    <section class="section is-main-section">
+      <div class="notification is-primary">
+        <button class="delete"></button>
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+      </div>
+      <div class="card has-table">
+        <header class="card-header">
+          <p class="card-header-title">
+            <span class="icon"><span class="mdi mdi-cart-outline"></span>
+            </span>
+            10 commandes
+          </p>
+          <a href="#" class="card-header-icon">
+            <span class="icon"><i class="mdi mdi-reload"></i></span>
+          </a>
+        </header>
         <div class="card-content">
           <div class="b-table has-pagination">
             <div class="table-wrapper has-mobile-cards">
@@ -353,6 +406,5 @@
       </div>
     </section>
 
-    <?php
-  require_once('include/footer.php');
-  ?>
+<?php 
+require_once('include/footer.php');

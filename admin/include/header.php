@@ -2,7 +2,6 @@
 <html
   lang="en"
   class="has-aside-left has-aside-mobile-transition has-navbar-fixed-top has-aside-expanded">
-
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />

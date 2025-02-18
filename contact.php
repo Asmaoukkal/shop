@@ -1,6 +1,9 @@
-<?php
-  require_once('include/header.php');
-  ?>
+<?php 
+require_once('include/init.php');
+
+require_once('include/header.php');
+?>
+
   <!-- inner page section -->
   <section class="inner_page_head">
     <div class="container_fuild">
@@ -52,6 +55,6 @@
   <!-- arrival section -->
   <!-- end arrival section -->
   <!-- footer section -->
-  <?php
-  require_once('include/footer.php');
-  ?>
+<?php 
+require_once('include/footer.php');
+?>

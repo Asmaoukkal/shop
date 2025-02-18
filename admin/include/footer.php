@@ -8,8 +8,7 @@
       </div>
     </footer>
 
-   
-  </div>
+    
 
   <!-- Scripts below are for demo only -->
   <script type="text/javascript" src="../assets/js/main.min.js"></script>

@@ -1,10 +1,11 @@
-<?php
+<?php 
 require_once('include/init.php');
-//echo '<pre>'; print_r($_SESSION); echo '</pre>';
-require_once('include/header.php');
 
+// echo '<pre>'; print_r($_SESSION); echo '</pre>';
+
+require_once('include/header.php');
 ?>
-    <!-- end header section -->
+    
     <!-- slider section -->
     <section class="slider_section">
       <div class="slider_bg_box">
@@ -530,8 +531,7 @@ require_once('include/header.php');
     </div>
   </section>
   <!-- end client section -->
-  <!-- footer start -->
-  <?php
-  require_once('include/footer.php');
-
+  
+<?php 
+require_once('include/footer.php');
 ?>

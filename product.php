@@ -1,7 +1,12 @@
-<?php
-  require_once('include/header.php');
-  ?>
-    <!-- end header section -->
+<?php 
+require_once('include/init.php');
+
+$data = $connect_db->query("SELECT id_product, title, picture, price FROM product");
+$products = $data->fetchAll(PDO::FETCH_ASSOC);
+// echo '<pre>'; print_r($products); echo '</pre>';
+
+require_once('include/header.php');
+?>
 
   <!-- inner page section -->
   <section class="inner_page_head">
@@ -23,23 +28,28 @@
         <h2>Nos <span>produits</span></h2>
       </div>
       <div class="row">
+
+        <?php foreach($products as $item): ?>
+
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="box">
             <div class="option_container">
               <div class="options">
-                <a href="" class="option1"> Chemise homme </a>
+                <a href="fiche_produit.php?id=<?= $item['id_product'] ?>" class="option1">En savoir plus</a>
                 <a href="" class="option2">Acheter maintenant</a>
               </div>
             </div>
             <div class="img-box">
-              <img src="assets/images-famma/p1.png" alt="" />
+              <img src="<?= $item['picture'] ?>" alt="<?= $item['title'] ?>" />
             </div>
             <div class="detail-box">
-              <h5>Chemise homme</h5>
-              <h6>75€</h6>
+              <h5><?= $item['title'] ?></h5>
+              <h6><?= $item['price'] ?>€</h6>
             </div>
           </div>
         </div>
+
+        <?php endforeach; ?>
 
       </div>
       <div class="btn-box">
@@ -49,6 +59,7 @@
   </section>
   <!-- end product section -->
   <!-- footer section -->
-  <?php
-  require_once('include/footer.php');
-  ?>
+ 
+<?php 
+require_once('include/footer.php');
+?>

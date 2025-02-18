@@ -26,9 +26,15 @@
   <link href="assets/css-famma/style.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="assets/css-famma/responsive.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
+  <?php 
+  // echo '<pre>'; print_r($_SERVER); echo '</pre>';
+  ?>
+
   <div class="hero_area">
     <!-- header section strats -->
     <header class="header_section">
@@ -47,44 +53,35 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
-              <li class="nav-item active">
+              <li class="nav-item <?php activeLink('/PHP/shop/index.php') ?>">
                 <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item <?php activeLink('/PHP/shop/product.php') ?>">
                 <a class="nav-link" href="product.php">Boutique</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item <?php activeLink('/PHP/shop/contact.php') ?>">
                 <a class="nav-link" href="contact.php">Contact</a>
               </li>
 
-
-              <?php if(!userConnected()): //on rentre dans la condition if dans le cas ou l'indice'user' n'est pas defeniet dans la session , donc l'utulisatur n'est pas authentifie?>
-
-
-              <li class="nav-item">
-                <a class="nav-link" href="connexion.php">Identifiez-vous</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="inscription.php">Inscription</a>
+              <?php if(!userConnected()): // On entre dans la condition IF dans le cas où l'indice 'user' n'est pas définit dans la session, donc l'utilisateur n'est pas authentifié ?>
+                <li class="nav-item <?php activeLink('/PHP/shop/connexion.php') ?>">
+                  <a class="nav-link" href="connexion.php">Identifiez-vous</a>
+                </li>
+                <li class="nav-item <?php activeLink('/PHP/shop/inscription.php') ?>">
+                  <a class="nav-link" href="inscription.php">Inscription</a>
+                </li>
+              <?php endif; ?>
+              
+              <?php if(userConnected()): // On entre dans la condition IF dans le cas où l'indice 'user' est définit dans la session, donc l'utilisateur est authentifié ?>
+                <li class="nav-item <?php activeLink('/PHP/shop/profil.php') ?>">
+                  <a class="nav-link" href="profil.php">Mon compte</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="connexion.php?action=logout">Déconnexion</a>
                 </li>
               <?php endif; ?>
 
-
-              <?php if(userConnected()):?>
-              <li class="nav-item">
-                <a class="nav-link" href="profil.php">Mon compte</a>
-              </li>
-              
-              <li class="nav-item">
-                <a class="nav-link" href="connexion.php?action=logout">Déconnection</a>
-              </li>
-              <?php endif; ?>
-
-              <?php 
-              // var_dump(adminConnected());
-              if(adminConnected()):
-                
-                ?>
+              <?php if(adminConnected()): ?>
                 <li class="nav-item dropdown">
                   <a
                     class="nav-link dropdown-toggle"
@@ -101,8 +98,9 @@
                   </ul>
                 </li>
               <?php endif; ?>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
+
+              <li class="nav-item d-flex align-items-start <?php activeLink('/PHP/shop/panier.php') ?>">
+                <a class="nav-link" href="panier.php">
                   <svg
                     version="1.1"
                     id="Capa_1"
@@ -153,14 +151,25 @@
                     <g></g>
                   </svg>
                 </a>
+
+                <!-- Exo : afficher le nombre de produit dans le panier de la session -->
+                <?php 
+                $nbProducts = 0;
+                if(isset($_SESSION['cart']))
+                  $nbProducts = array_sum($_SESSION['cart']['quantity']);
+
+                // array_sum() : fonction prédéfinie qui calcul la somme des éléments d'un tableau Array
+                ?>
+                <span class="badge bg-success text-white mt-1"><?= $nbProducts ?></span>
               </li>
-              <form class="form-inline">
+              <!-- <form class="form-inline">
                 <button class="btn my-2 my-sm-0 nav_search-btn" type="submit">
                   <i class="fa fa-search" aria-hidden="true"></i>
                 </button>
-              </form>
+              </form> -->
             </ul>
           </div>
         </nav>
       </div>
     </header>
+    <!-- end header section -->

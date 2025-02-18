@@ -1,43 +1,40 @@
-<?php
-//  -------------CONNEXION BDD
+<?php 
+// ----- CONNEXION BDD
 $connect_db = new PDO('mysql:host=localhost;dbname=shop', 'root', '', [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING,
     PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
 ]);
-//echo '<pre>'; var_dump($connect_db); echo '</pre>';
 
-//-------------------SESSION
-
+// -------SESSION
 session_start();
 
-//-------------------CHEMIN
-
-//echo '<pre>'; var_dump($_SERVER); echo '</pre>';
+// ------- CHEMIN
 define('RACINE_SITE', $_SERVER['DOCUMENT_ROOT'] . '/PHP/shop/');
-//echo '<pre>'; print_r(RACINE_SITE); echo '</pre>';
-
-//Lors de l'enregestriment d'image/photos, nous aurrons besoin du chemin complet de dossier images pour enregistrer la photo
-//echo RACINE_SITE .'shop/assets/images/product.jpg';
+// echo '<pre>'; print_r(RACINE_SITE); echo '</pre>';
+// Cette constante retourne le chemin physique du dossier htdocs sur le serveur, de notre dossier 'shop' sur le serveur
+// Lors de l'enregistrement d'image/photos, nous aurons besoin du chemin complet dossier images pour enregistrer la photo
+// /opt/lampp/htdocs/shop/assets/images/product.jpg;
 
 define("URL", "http://localhost/PHP/shop/");
-// Cette constante servira a enregistrer l'URL d'une photo/image dans la BDD on en pas conserver la photo physique dans la BDD, donc on defenit une URLvers le bon dossier
+// define("URL", "https://www.famms.fr/");
+// <img src="http://localhost/PHP/shop/assets/images/product.jpg">
+// <img src="https://www.famms.fr/assets/images/product.jpg">
+// <img src=URL . assets/images/product.jpg">
+// Cette constante servira à enregistrer l'URL d'une photo/image dans la BDD, on ne pas conserver la photo physiquement dans la BDD, donc on définit une URL vers le bon dossier
 
-//-------------------- Variable 
-
+// ------------- VARIABLES 
 $content = '';
 
-//---------------------FAILLES XSS
- foreach($_POST as $key => $value){
-    $_POST[$key] = htmlspecialchars(addslashes(trim($value)));
- }
- foreach($_GET as $key => $value){
-    $_GET[$key] = htmlspecialchars(addslashes(trim($value)));
- }
-// trim() : fonction predefenier qui supprime les espaces en debut et fin de chaines de caractaire
+// ------------ FAILLES XSS
+foreach($_POST as $key => $value){
+    $_POST[$key] = htmlentities(addslashes(trim($value)));
+}
 
- //------------------- INCLUSION FONCTION
+foreach($_GET as $key => $value){
+    $_GET[$key] = htmlentities(addslashes(trim($value)));
+}
+// trim() : fonction prédéfinie qui supprime les espaces en début et fin de chaines de caractères
 
- require_once("functions.php");
+// ----------- INCLUSIONS FONCTIONS
+require_once("functions.php");
 
- 
-?>
